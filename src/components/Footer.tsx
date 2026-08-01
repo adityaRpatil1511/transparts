@@ -23,33 +23,18 @@ export default function Footer() {
     <footer style={{ background: 'var(--primary)', marginTop: '5rem' }}>
 
       {/* ── CTA Strip ── */}
-      <div style={{ background: 'rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '1.25rem 0' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-              width: '36px', height: '36px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-              <Zap size={16} color="#FFFFFF" />
-            </div>
-            <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem', lineHeight: 1.4 }}>
-              <strong style={{ color: '#FFFFFF' }}>Fast RFQ Response (Under 2 Hours)</strong> — Submit your 2D/3D engineering drawings.
-            </p>
+      <div style={{ background: 'rgba(0,0,0,0.15)', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '1rem 0' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', textAlign: 'center' }}>
+          <div style={{
+            width: '32px', height: '32px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          }}>
+            <Zap size={15} color="#FFFFFF" />
           </div>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
-              background: '#FFFFFF', color: 'var(--primary)',
-              fontWeight: '700', fontSize: '0.86rem',
-              padding: '0.62rem 1.4rem', borderRadius: '8px',
-              transition: 'opacity 0.2s',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Get Custom Quote <ArrowRight size={15} />
-          </Link>
+          <p style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.88rem', lineHeight: 1.4 }}>
+            <strong style={{ color: '#FFFFFF' }}>Precision Machined Components & Assemblies</strong> — Manufactured at Vasuli Industrial Zone, Pune.
+          </p>
         </div>
       </div>
 
@@ -65,7 +50,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={{ marginBottom: '1rem' }}>
-              <Logo height={34} showTagline={false} variant="light" />
+              <Logo height={42} showTagline={false} variant="light" />
             </div>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.865rem', lineHeight: 1.65, marginBottom: '1.25rem', maxWidth: '270px' }}>
               Emerging precision machining startup specializing in high-tolerance CNC turning, honing, and custom transport component manufacturing in Pune.
@@ -117,10 +102,10 @@ export default function Footer() {
                 <Phone size={15} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
                 +91 9892320872 / 9724419227
               </a>
-              <a href="mailto:export@transparts.in"
+              <a href="mailto:Transparts0125@gmail.com"
                 style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', color: 'rgba(255,255,255,0.75)', fontSize: '0.875rem' }}>
                 <Mail size={15} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
-                export@transparts.in
+                Transparts0125@gmail.com
               </a>
             </div>
           </div>

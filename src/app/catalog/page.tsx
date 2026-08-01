@@ -1,30 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Search, ShieldCheck, ChevronRight, Info, FileText } from 'lucide-react';
-import { partsCatalog, categories, Part } from '../../data/partsData';
-import QuoteModal from '../../components/QuoteModal';
+import { partsCatalog, categories } from '../../data/partsData';
 
 export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedPartForModal, setSelectedPartForModal] = useState<Part | null>(null);
-  const [isQuoteOpen, setIsQuoteOpen] = useState<boolean>(false);
   const [activeSpecPart, setActiveSpecPart] = useState<string | null>(null);
 
   const filteredParts = partsCatalog.filter((part) => {
-    const matchesCategory = selectedCategory === 'all' || part.category === selectedCategory;
-    const matchesSearch =
-      part.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      part.partNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      part.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return selectedCategory === 'all' || part.category === selectedCategory;
   });
-
-  const handleOpenQuote = (part: Part) => {
-    setSelectedPartForModal(part);
-    setIsQuoteOpen(true);
-  };
 
   return (
     <div style={{ paddingTop: '2rem', paddingBottom: '5rem' }}>
@@ -46,48 +33,28 @@ export default function CatalogPage() {
           background: 'var(--bg-white)',
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius-md)',
-          padding: '1rem 1.25rem',
+          padding: '0.85rem 1.25rem',
           marginBottom: '2rem',
-          display: 'flex', gap: '1rem', flexWrap: 'wrap',
-          alignItems: 'center', justifyContent: 'space-between',
+          display: 'flex', gap: '0.5rem', flexWrap: 'wrap',
+          alignItems: 'center', justifyContent: 'center',
           boxShadow: 'var(--shadow-sm)',
         }}>
-          {/* Search input */}
-          <div style={{
-            display: 'flex', gap: '0.65rem', alignItems: 'center',
-            flex: 1, minWidth: '260px',
-            background: 'var(--bg-input)', padding: '0.6rem 1rem',
-            borderRadius: '8px', border: '1.5px solid var(--border)',
-          }}>
-            <Search size={17} color="var(--text-muted)" />
-            <input
-              type="text"
-              placeholder="Search component name, part # or drawing spec..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ background: 'none', border: 'none', color: 'var(--text-heading)', outline: 'none', width: '100%', fontSize: '0.9rem', fontFamily: 'var(--font-main)' }}
-            />
-          </div>
-
-          {/* Category pills */}
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                style={{
-                  background: selectedCategory === cat.id ? 'var(--primary)' : 'transparent',
-                  color: selectedCategory === cat.id ? '#FFF' : 'var(--text-muted)',
-                  border: selectedCategory === cat.id ? '1.5px solid var(--primary)' : '1.5px solid var(--border)',
-                  padding: '0.45rem 0.9rem', borderRadius: '6px', fontSize: '0.82rem',
-                  cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s',
-                  fontFamily: 'var(--font-main)',
-                }}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              style={{
+                background: selectedCategory === cat.id ? 'var(--primary)' : 'transparent',
+                color: selectedCategory === cat.id ? '#FFF' : 'var(--text-muted)',
+                border: selectedCategory === cat.id ? '1.5px solid var(--primary)' : '1.5px solid var(--border)',
+                padding: '0.5rem 1rem', borderRadius: '30px', fontSize: '0.85rem',
+                cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s',
+                fontFamily: 'var(--font-main)',
+              }}
+            >
+              {cat.name}
+            </button>
+          ))}
         </div>
 
         {/* ── Results bar ── */}
@@ -156,12 +123,10 @@ export default function CatalogPage() {
 
               <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>RFQ Pricing</div>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Availability</div>
                   <div style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-heading)', fontFamily: 'var(--font-display)' }}>{part.price}</div>
                 </div>
-                <button className="btn-primary" onClick={() => handleOpenQuote(part)} style={{ padding: '0.5rem 1rem', fontSize: '0.84rem' }}>
-                  Request Quote <ChevronRight size={15} />
-                </button>
+                <span style={{ fontSize: '0.8rem', color: 'var(--accent-teal)', fontWeight: '600' }}>Custom Specs</span>
               </div>
             </div>
           ))}
@@ -180,17 +145,13 @@ export default function CatalogPage() {
           <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-display)', color: 'var(--text-heading)', marginBottom: '0.5rem' }}>
             Have a Custom 2D/3D Drawing for Machining?
           </h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: '550px', margin: '0 auto 1.25rem', lineHeight: 1.6 }}>
-            Send us your engineering drawings (PDF, STEP, IGES, DXF) with material specifications and batch requirements for an instant RFQ.
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: '550px', margin: '0 auto', lineHeight: 1.6 }}>
+            Directly share your engineering drawings (PDF, STEP, IGES, DXF) with our Vasuli, Pune plant engineering team.
           </p>
-          <button className="btn-primary" onClick={() => setIsQuoteOpen(true)} style={{ padding: '0.75rem 1.75rem' }}>
-            Submit Engineering RFQ Drawing
-          </button>
         </div>
 
       </div>
-
-      <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} defaultPart={selectedPartForModal} />
     </div>
   );
 }
+

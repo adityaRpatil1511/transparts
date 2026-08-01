@@ -1,24 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   ShieldCheck,
-  Globe,
   CheckCircle,
-  Factory,
   Wrench,
   Cpu,
   MapPin,
-  Mail,
-  Phone,
-  ArrowRight,
   Maximize2,
   X,
+  Sparkles,
+  Building2,
   Award,
-  Sparkles
+  FileCheck,
+  ExternalLink
 } from 'lucide-react';
+
+import IMAGES from '../../data/images';
 
 interface MachineItem {
   id: string;
@@ -37,7 +36,7 @@ const facilityMachines: MachineItem[] = [
     name: 'TransParts Manufacturing & Logistics Center',
     code: 'FACILITY-01',
     category: 'Manufacturing Facility',
-    image: '/facility/factory-entrance.png',
+    image: IMAGES.facility.factoryEntrance.src,
     specs: [
       'GST: 27DNUPP9825G1Z3',
       'Vasuli Industrial Zone, Pune',
@@ -52,7 +51,7 @@ const facilityMachines: MachineItem[] = [
     name: 'LMW S TURN 1 CNC Turning Center',
     code: 'CNC-02',
     category: 'CNC Turning',
-    image: '/facility/cnc-02-lmw-sturn1.png',
+    image: IMAGES.facility.cncLmw.src,
     specs: [
       'Fanuc High-Precision Controller',
       'Max Turning Length: 500mm',
@@ -67,7 +66,7 @@ const facilityMachines: MachineItem[] = [
     name: 'Heavy Duty Shaft Turning Operations',
     code: 'OPER-01',
     category: 'Precision Machining',
-    image: '/facility/cnc-precision-turning.png',
+    image: IMAGES.facility.cncPrecision.src,
     specs: [
       'Multi-Station Hydraulic Turret',
       'High-Pressure Coolant Jet Injection',
@@ -82,7 +81,7 @@ const facilityMachines: MachineItem[] = [
     name: 'Takisawa TC-2 Heavy CNC Lathe',
     code: 'CNC-01',
     category: 'CNC Heavy Lathe',
-    image: '/facility/cnc-01-takisawa.png',
+    image: IMAGES.facility.cncTakisawa.src,
     specs: [
       'Heavy Cast Iron Bed Rigidity',
       'High Torque Spindle Drive',
@@ -97,7 +96,7 @@ const facilityMachines: MachineItem[] = [
     name: 'Horizontal Industrial Honing Machine',
     code: 'HONING M/C',
     category: 'Internal Boring & Honing',
-    image: '/facility/honing-machine.png',
+    image: IMAGES.facility.honingMachine.src,
     specs: [
       'Digital Bore Size Controller',
       'Sub-Micron Cylinder Surface Finish',
@@ -109,8 +108,36 @@ const facilityMachines: MachineItem[] = [
   }
 ];
 
+const clientCompanies = [
+  {
+    name: 'Four Star Industries Pvt. Ltd.',
+    category: 'Automotive & Precision Components',
+    tag: 'Valued Partner',
+    desc: 'Leading manufacturer of automotive assemblies and high-precision engineered components.',
+  },
+  {
+    name: 'Stawn Precision Private Limited',
+    category: 'High-Tolerance Machined Parts',
+    tag: 'OEM Partner',
+    desc: 'Specialists in micro-tolerance machining, industrial assemblies, and custom gear shafts.',
+  },
+  {
+    name: 'Bijur Delimon India Private Limited',
+    category: 'Centralized Lubrication & Fluid Systems',
+    tag: 'Key Client',
+    desc: 'Global leaders in centralized lubrication systems, heavy machinery pumps, and fluid valves.',
+  },
+  {
+    name: 'Nirmal Aquasol',
+    category: 'Water Treatment & Industrial Engineering',
+    tag: 'Valued Partner',
+    desc: 'Pioneers in industrial water treatment, heavy filtration shafts, and hydraulic components.',
+  },
+];
+
 export default function AboutPage() {
   const [activeImage, setActiveImage] = useState<MachineItem | null>(null);
+  const [isCertModalOpen, setIsCertModalOpen] = useState<boolean>(false);
 
   return (
     <div style={{ paddingTop: '2.5rem', paddingBottom: '5rem' }}>
@@ -119,9 +146,9 @@ export default function AboutPage() {
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
             <span className="badge-tag badge-steel">
-              <Sparkles size={12} /> Infrastructure &amp; Fleet Powerhouse
+              <Sparkles size={12} /> Infrastructure &amp; Quality Powerhouse
             </span>
-            <span className="badge-tag badge-cyan">ISO 9001:2015 Registered</span>
+            <span className="badge-tag badge-cyan">ISO 9001:2015 Certified</span>
           </div>
           <h1
             style={{
@@ -144,7 +171,7 @@ export default function AboutPage() {
           style={{
             background: 'linear-gradient(135deg, #0077A8 0%, #005E88 100%)',
             borderRadius: 'var(--radius-lg)',
-            padding: '2rem 2.5rem',
+            padding: 'clamp(1.25rem, 3vw, 2.25rem)',
             color: '#FFFFFF',
             marginBottom: '4rem',
             boxShadow: 'var(--shadow-md)'
@@ -153,30 +180,181 @@ export default function AboutPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '2rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+              gap: '1.5rem',
               alignItems: 'center'
             }}
-            className="grid-4col"
+            className="plant-highlights-grid"
           >
-            <div style={{ borderRight: '1px solid rgba(255,255,255,0.15)', paddingRight: '1rem' }}>
-              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.8 }}>Registered GSTIN</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: '700', fontFamily: 'monospace', marginTop: '0.2rem' }}>27DNUPP9825G1Z3</div>
+            <div className="plant-highlight-item">
+              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.85 }}>Registered GSTIN</div>
+              <div style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', fontWeight: '700', fontFamily: 'monospace', marginTop: '0.2rem' }}>27DNUPP9825G1Z3</div>
             </div>
-            <div style={{ borderRight: '1px solid rgba(255,255,255,0.15)', paddingRight: '1rem' }}>
-              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.8 }}>Manufacturing Unit</div>
-              <div style={{ fontSize: '1.05rem', fontWeight: '700', marginTop: '0.2rem' }}>Gala 2, Gate 50, Vasuli, Pune</div>
+            <div className="plant-highlight-item">
+              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.85 }}>ISO Certification</div>
+              <div style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)', fontWeight: '700', marginTop: '0.2rem' }}>ISO 9001:2015 Certified</div>
             </div>
-            <div style={{ borderRight: '1px solid rgba(255,255,255,0.15)', paddingRight: '1rem' }}>
-              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.8 }}>Direct Exports</div>
-              <div style={{ fontSize: '1.05rem', fontWeight: '700', marginTop: '0.2rem' }}>export@transparts.in</div>
+            <div className="plant-highlight-item">
+              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.85 }}>Direct Exports Email</div>
+              <div style={{ fontSize: 'clamp(0.85rem, 2vw, 1rem)', fontWeight: '700', marginTop: '0.2rem', wordBreak: 'break-word' }}>Transparts0125@gmail.com</div>
             </div>
-            <div>
-              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.8 }}>Plant Support</div>
-              <div style={{ fontSize: '1.05rem', fontWeight: '700', marginTop: '0.2rem' }}>+91 98923 20872</div>
+            <div className="plant-highlight-item">
+              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.85 }}>Plant Location</div>
+              <div style={{ fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', fontWeight: '700', marginTop: '0.2rem' }}>Vasuli, Pune (Gala 2)</div>
             </div>
           </div>
         </div>
+
+        {/* ── ISO 9001:2015 CERTIFICATE SHOWCASE ── */}
+        <section style={{ marginBottom: '5rem' }}>
+          <div className="glass-card" style={{ padding: 'clamp(1.25rem, 3.5vw, 2.75rem)', background: '#FFFFFF', border: '1.5px solid var(--border-blue)', borderRadius: 'var(--radius-lg)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', alignItems: 'center' }}>
+              
+              {/* Certificate Image Box */}
+              <div
+                style={{
+                  position: 'relative',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid var(--border)',
+                  boxShadow: '0 10px 30px rgba(0,60,100,0.12)',
+                  background: '#F9FBFD',
+                  cursor: 'pointer',
+                  maxWidth: '480px',
+                  margin: '0 auto',
+                  width: '100%',
+                }}
+                onClick={() => setIsCertModalOpen(true)}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={IMAGES.isoCertificate.src}
+                  alt="TransParts ISO 9001:2015 Certificate of Registration"
+                  style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.3s ease' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                />
+                <button
+                  style={{
+                    position: 'absolute',
+                    bottom: '0.85rem', right: '0.85rem',
+                    background: 'rgba(15, 30, 43, 0.85)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#FFF', border: 'none',
+                    padding: '0.45rem 0.85rem', borderRadius: '6px',
+                    fontSize: '0.78rem', fontWeight: '600',
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem',
+                  }}
+                >
+                  <Maximize2 size={13} /> View Full HD Certificate
+                </button>
+              </div>
+
+              {/* Certificate Details */}
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                  <span className="badge-tag badge-emerald"><Award size={13} /> Official Quality Certification</span>
+                </div>
+                <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', color: 'var(--text-heading)', fontFamily: 'var(--font-display)', marginBottom: '0.85rem', lineHeight: 1.25 }}>
+                  ISO 9001 : 2015<br />
+                  <span className="gradient-blue">Certified Quality Management</span>
+                </h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
+                  TRANSPARTS is audited and certified by Robust Certifications Pvt. Ltd. conforming strictly to ISO 9001:2015 requirements for <strong>Manufacturing of Machining Component Parts</strong>.
+                </p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.85rem', background: 'var(--bg-page)', border: '1px solid var(--border)', borderRadius: '12px', padding: '1rem', marginBottom: '1.25rem' }}>
+                  <div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '700' }}>Certificate No.</div>
+                    <div style={{ color: 'var(--primary)', fontWeight: '700', fontSize: '0.92rem', fontFamily: 'monospace', marginTop: '0.15rem' }}>905937/2026/R</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '700' }}>Registration Date</div>
+                    <div style={{ color: 'var(--text-heading)', fontWeight: '600', fontSize: '0.88rem', marginTop: '0.15rem' }}>17 / 07 / 2026</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '700' }}>Expiry Date</div>
+                    <div style={{ color: 'var(--text-heading)', fontWeight: '600', fontSize: '0.88rem', marginTop: '0.15rem' }}>16 / 07 / 2029</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '700' }}>Accreditation</div>
+                    <div style={{ color: 'var(--accent-teal)', fontWeight: '700', fontSize: '0.88rem', marginTop: '0.15rem' }}>IAF / EIAC</div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <button
+                    className="btn-primary"
+                    onClick={() => setIsCertModalOpen(true)}
+                    style={{ padding: '0.65rem 1.3rem', fontSize: '0.85rem', borderRadius: '8px' }}
+                  >
+                    Open Certificate Preview <Maximize2 size={14} />
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── TRUSTED OEM CLIENTS SECTION ── */}
+        <section style={{ marginBottom: '5rem' }}>
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3rem' }}>
+            <span className="section-label">Trusted Industrial Clients</span>
+            <h2 style={{ fontSize: '2.1rem', fontFamily: 'var(--font-display)', color: 'var(--text-heading)' }}>
+              Valued OEM Client Partners
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginTop: '0.5rem' }}>
+              TransParts supplies high-tolerance CNC turned and honed component parts to leading OEM &amp; industrial companies across India.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }} className="grid-2col">
+            {clientCompanies.map((client, idx) => (
+              <div
+                key={idx}
+                className="glass-card"
+                style={{
+                  padding: '1.75rem',
+                  background: '#FFFFFF',
+                  borderRadius: 'var(--radius-md)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <div style={{
+                      width: '44px', height: '44px', borderRadius: '10px',
+                      background: 'var(--primary-bg2)', color: 'var(--primary)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Building2 size={22} />
+                    </div>
+                    <span className="badge-tag badge-steel">{client.tag}</span>
+                  </div>
+
+                  <h3 style={{ fontSize: '1.15rem', color: 'var(--text-heading)', fontFamily: 'var(--font-display)', marginBottom: '0.4rem', lineHeight: 1.3 }}>
+                    {client.name}
+                  </h3>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--primary)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+                    {client.category}
+                  </div>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.6 }}>
+                    {client.desc}
+                  </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid var(--border)', marginTop: '1.25rem', paddingTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--accent-green)', fontWeight: '600' }}>
+                  <CheckCircle size={14} /> Quality Component Supplier
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ── FACILITY MACHINERY SHOWCASE (HD GALLERY) ── */}
         <div style={{ marginBottom: '5rem' }}>
@@ -281,7 +459,7 @@ export default function AboutPage() {
                     </p>
 
                     {/* Specs Pills */}
-                    <div style={{ background: 'var(--bg-section)', border: '1px solid var(--border)', borderRadius: '8px', padding: '0.85rem', marginBottom: '1rem' }}>
+                    <div style={{ background: 'var(--bg-section)', border: '1px solid var(--border)', borderRadius: '8px', padding: '0.85rem' }}>
                       <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.4rem', fontWeight: '700' }}>
                         Key Technical Specifications
                       </div>
@@ -295,10 +473,6 @@ export default function AboutPage() {
                       </div>
                     </div>
                   </div>
-
-                  <Link href="/contact" className="btn-secondary" style={{ width: '100%', justifyContent: 'center', fontSize: '0.85rem', padding: '0.65rem' }}>
-                    Request Specs &amp; Job Capacity <ArrowRight size={14} />
-                  </Link>
                 </div>
               </div>
             ))}
@@ -337,18 +511,13 @@ export default function AboutPage() {
                 onClick={() => setActiveImage(null)}
                 style={{
                   position: 'absolute',
-                  top: '1rem',
-                  right: '1rem',
+                  top: '1rem', right: '1rem',
                   zIndex: 10,
                   background: 'rgba(0,0,0,0.6)',
-                  color: '#FFF',
-                  border: 'none',
+                  color: '#FFF', border: 'none',
                   borderRadius: '50%',
-                  width: '36px',
-                  height: '36px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  width: '36px', height: '36px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer'
                 }}
               >
@@ -372,6 +541,66 @@ export default function AboutPage() {
                   {activeImage.name}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.6 }}>{activeImage.description}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── MODAL FOR ISO CERTIFICATE PREVIEW ── */}
+        {isCertModalOpen && (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(10, 20, 30, 0.90)',
+              backdropFilter: 'blur(12px)',
+              zIndex: 300,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem'
+            }}
+            onClick={() => setIsCertModalOpen(false)}
+          >
+            <div
+              style={{
+                position: 'relative',
+                maxWidth: '780px',
+                width: '100%',
+                maxHeight: '90vh',
+                background: '#FFFFFF',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setIsCertModalOpen(false)}
+                style={{
+                  position: 'absolute',
+                  top: '1rem', right: '1rem',
+                  zIndex: 10,
+                  background: 'rgba(0,0,0,0.7)',
+                  color: '#FFF', border: 'none',
+                  borderRadius: '50%',
+                  width: '40px', height: '40px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={20} />
+              </button>
+
+              <div style={{ overflowY: 'auto', padding: '1rem', display: 'flex', justifyContent: 'center', background: '#F5F8FA' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={IMAGES.isoCertificate.src}
+                  alt="TransParts ISO 9001:2015 Certificate Full Size"
+                  style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
+                />
               </div>
             </div>
           </div>
@@ -468,18 +697,9 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-
-          <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
-            <Link
-              href="/contact"
-              className="btn-primary"
-              style={{ padding: '0.75rem 1.6rem', fontSize: '0.9rem' }}
-            >
-              Schedule Factory Audit <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       </div>
     </div>
   );
 }
+
